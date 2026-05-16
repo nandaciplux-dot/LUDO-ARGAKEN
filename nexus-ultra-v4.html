@@ -1,0 +1,1873 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXUS ULTRA — AI Superintelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500;700&family=Cabinet+Grotesk:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   NEXUS ULTRA — DESIGN SYSTEM
+═══════════════════════════════════════════ */
+:root {
+  --bg0: #03030a;
+  --bg1: #07071a;
+  --bg2: #0d0d28;
+  --bg3: #141436;
+  --surface: rgba(255,255,255,0.03);
+  --surface2: rgba(255,255,255,0.06);
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+
+  --gold: #f5c842;
+  --gold2: #ffd97d;
+  --teal: #00e5cc;
+  --teal2: #5ffff0;
+  --rose: #ff4f7b;
+  --rose2: #ff8fab;
+  --violet: #9d5cff;
+  --violet2: #c49dff;
+
+  --text: #f0f0ff;
+  --text2: #a0a0c8;
+  --text3: #606090;
+
+  --radius: 14px;
+  --radius-sm: 8px;
+  --radius-lg: 20px;
+
+  /* Current accent - changes per mode */
+  --accent: var(--teal);
+  --accent2: var(--teal2);
+  --accent-glow: rgba(0,229,204,0.15);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+::selection { background: rgba(0,229,204,0.25); color: white; }
+
+body {
+  background: var(--bg0);
+  color: var(--text);
+  font-family: 'Cabinet Grotesk', sans-serif;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  cursor: default;
+}
+
+/* ─── ANIMATED BACKGROUND ─── */
+.bg-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.bg-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.12;
+  animation: orbDrift 20s ease-in-out infinite;
+}
+.bg-orb.o1 { width:600px; height:600px; background:var(--violet); top:-200px; left:-100px; animation-delay:0s; }
+.bg-orb.o2 { width:500px; height:500px; background:var(--teal); bottom:-150px; right:-100px; animation-delay:-7s; }
+.bg-orb.o3 { width:400px; height:400px; background:var(--rose); top:40%; left:40%; animation-delay:-14s; }
+
+@keyframes orbDrift {
+  0%,100% { transform: translate(0,0) scale(1); }
+  33%      { transform: translate(40px,-30px) scale(1.05); }
+  66%      { transform: translate(-30px,40px) scale(0.95); }
+}
+
+/* Grid lines */
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 48px 48px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ─── TOP HEADER ─── */
+header {
+  position: relative;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  height: 56px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(3,3,10,0.85);
+  backdrop-filter: blur(30px);
+  flex-shrink: 0;
+  gap: 16px;
+}
+
+.logo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.logo-gem {
+  width: 32px; height: 32px;
+  position: relative;
+  flex-shrink: 0;
+}
+.logo-gem svg { width:100%; height:100%; }
+
+.logo-name {
+  font-size: 17px;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  color: var(--text);
+}
+.logo-version {
+  font-size: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text3);
+  letter-spacing: 0.1em;
+  margin-top: 1px;
+}
+
+.header-divider {
+  width: 1px; height: 24px;
+  background: var(--border2);
+  flex-shrink: 0;
+}
+
+/* Mode tabs in header */
+.mode-tabs {
+  display: flex;
+  gap: 2px;
+  flex: 1;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.mode-tabs::-webkit-scrollbar { display:none; }
+
+.mode-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text3);
+  cursor: pointer;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  background: transparent;
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+}
+.mode-tab:hover {
+  background: var(--surface2);
+  color: var(--text2);
+}
+.mode-tab.active {
+  background: var(--accent-glow);
+  border-color: rgba(255,255,255,0.1);
+  color: var(--accent);
+}
+
+.mode-tab .tab-icon { font-size: 14px; }
+
+/* Header right controls */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.hdr-btn {
+  width: 32px; height: 32px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text3);
+  display: flex; align-items:center; justify-content:center;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+.hdr-btn:hover { background:var(--surface2); color:var(--text); border-color:var(--border2); }
+
+.status-badge {
+  display: flex; align-items:center; gap:5px;
+  padding: 5px 11px;
+  border-radius: 100px;
+  background: rgba(0,229,204,0.07);
+  border: 1px solid rgba(0,229,204,0.2);
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--teal);
+  letter-spacing: 0.05em;
+}
+.status-pulse {
+  width: 5px; height: 5px; border-radius:50%;
+  background: var(--teal);
+  animation: blink 2s ease-in-out infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+/* ─── LAYOUT ─── */
+.layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── LEFT PANEL ─── */
+.left-panel {
+  width: 56px;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 0;
+  gap: 4px;
+  background: rgba(3,3,10,0.6);
+  backdrop-filter: blur(20px);
+  flex-shrink: 0;
+}
+
+.icon-nav {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  display: flex; align-items:center; justify-content:center;
+  font-size: 17px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  color: var(--text3);
+  transition: all 0.2s;
+  position: relative;
+}
+.icon-nav:hover { background:var(--surface2); color:var(--text2); }
+.icon-nav.active { background: var(--accent-glow); color:var(--accent); border-color:rgba(255,255,255,0.08); }
+
+.icon-nav .tooltip {
+  position: absolute;
+  left: 48px;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  white-space: nowrap;
+  color: var(--text2);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s;
+  z-index: 999;
+}
+.icon-nav:hover .tooltip { opacity: 1; }
+
+.nav-spacer { flex: 1; }
+
+/* ─── CHAT AREA ─── */
+.chat-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  scroll-behavior: smooth;
+}
+#messages::-webkit-scrollbar { width: 3px; }
+#messages::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+/* ─── WELCOME SCREEN ─── */
+.welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+  padding: 40px 20px;
+  text-align: center;
+  animation: welcomeIn 0.7s cubic-bezier(0.22,1,0.36,1);
+}
+@keyframes welcomeIn {
+  from { opacity:0; transform:translateY(30px) scale(0.97); }
+  to   { opacity:1; transform:translateY(0) scale(1); }
+}
+
+.welcome-logo-big {
+  width: 72px; height: 72px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, var(--teal) 0%, var(--violet) 100%);
+  display: flex; align-items:center; justify-content:center;
+  font-size: 32px;
+  margin-bottom: 24px;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.1),
+    0 20px 60px rgba(0,229,204,0.3),
+    0 0 80px rgba(157,92,255,0.2);
+  animation: logoPulse 4s ease-in-out infinite;
+}
+@keyframes logoPulse {
+  0%,100% { box-shadow: 0 0 0 1px rgba(255,255,255,0.1), 0 20px 60px rgba(0,229,204,0.3), 0 0 80px rgba(157,92,255,0.2); }
+  50%      { box-shadow: 0 0 0 1px rgba(255,255,255,0.15), 0 24px 80px rgba(0,229,204,0.45), 0 0 120px rgba(157,92,255,0.35); }
+}
+
+.welcome-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  color: var(--teal);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.welcome-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(28px, 5vw, 44px);
+  font-weight: 400;
+  line-height: 1.15;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, #fff 30%, var(--violet2) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  max-width: 540px;
+}
+.welcome-title em { font-style: italic; color: var(--teal); -webkit-text-fill-color: var(--teal); }
+
+.welcome-sub {
+  font-size: 15px;
+  color: var(--text3);
+  max-width: 440px;
+  line-height: 1.75;
+  margin-bottom: 36px;
+  font-weight: 400;
+}
+
+/* Capability pills */
+.cap-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 36px;
+}
+.cap-pill {
+  padding: 6px 14px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 700;
+  border: 1px solid var(--border2);
+  background: var(--surface);
+  color: var(--text2);
+  letter-spacing: 0.04em;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.cap-pill:hover { border-color: var(--accent); color:var(--accent); background:var(--accent-glow); }
+
+/* Starter prompts */
+.starters {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  max-width: 680px;
+  width: 100%;
+}
+.starter {
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.25s cubic-bezier(0.22,1,0.36,1);
+  backdrop-filter: blur(10px);
+}
+.starter:hover {
+  border-color: var(--border2);
+  background: var(--surface2);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+}
+.starter-icon { font-size: 22px; margin-bottom: 8px; }
+.starter-title { font-size: 13px; font-weight: 800; margin-bottom: 4px; color: var(--text); }
+.starter-desc { font-size: 11.5px; color: var(--text3); line-height: 1.5; }
+
+/* ─── MESSAGES ─── */
+.msg-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 6px;
+  animation: msgIn 0.35s cubic-bezier(0.22,1,0.36,1);
+}
+@keyframes msgIn {
+  from { opacity:0; transform:translateY(12px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+.msg-row {
+  display: flex;
+  gap: 14px;
+  padding: 6px 0;
+}
+.msg-row.user-row { flex-direction: row-reverse; }
+
+.msg-avatar {
+  width: 32px; height: 32px;
+  border-radius: 10px;
+  display: flex; align-items:center; justify-content:center;
+  font-size: 15px;
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+.msg-row.user-row .msg-avatar {
+  background: linear-gradient(135deg, var(--bg3), #1c1c4a);
+  border: 1px solid var(--border2);
+}
+.msg-row.ai-row .msg-avatar {
+  background: linear-gradient(135deg, var(--teal) 0%, var(--violet) 100%);
+  box-shadow: 0 4px 16px rgba(0,229,204,0.25);
+}
+
+.msg-content { max-width: 680px; }
+
+.msg-bubble {
+  padding: 13px 17px;
+  border-radius: var(--radius);
+  font-size: 14.5px;
+  line-height: 1.75;
+  position: relative;
+}
+
+.msg-row.user-row .msg-bubble {
+  background: linear-gradient(135deg, #141440, #0f0f30);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-bottom-right-radius: 4px;
+  color: var(--text);
+}
+
+.msg-row.ai-row .msg-bubble {
+  background: linear-gradient(135deg, rgba(0,229,204,0.04), rgba(157,92,255,0.04));
+  border: 1px solid rgba(0,229,204,0.1);
+  border-bottom-left-radius: 4px;
+  color: var(--text);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+}
+
+.msg-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 5px;
+  padding: 0 2px;
+  font-size: 10.5px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text3);
+}
+.msg-row.user-row .msg-meta { flex-direction:row-reverse; }
+
+.msg-actions {
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.msg-group:hover .msg-actions { opacity: 1; }
+
+.msg-act-btn {
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  font-size: 10px;
+  color: var(--text3);
+  cursor: pointer;
+  font-family: 'JetBrains Mono', monospace;
+  transition: all 0.15s;
+}
+.msg-act-btn:hover { color:var(--text2); border-color:var(--border2); }
+
+.msg-act-btn.download-btn {
+  color: var(--teal);
+  border-color: rgba(0,229,204,0.3);
+  background: rgba(0,229,204,0.07);
+}
+.msg-act-btn.download-btn:hover {
+  color: var(--teal2);
+  border-color: rgba(0,229,204,0.6);
+  background: rgba(0,229,204,0.14);
+  box-shadow: 0 0 10px rgba(0,229,204,0.15);
+}
+
+/* Code in messages */
+.msg-bubble pre {
+  background: rgba(0,0,0,0.6);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 16px;
+  margin: 12px 0;
+  overflow-x: auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+  line-height: 1.65;
+  color: var(--teal2);
+  position: relative;
+}
+.msg-bubble pre::before {
+  content: attr(data-lang);
+  position: absolute;
+  top: 8px; right: 12px;
+  font-size: 10px;
+  color: var(--text3);
+  font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.msg-bubble code {
+  background: rgba(0,229,204,0.08);
+  border: 1px solid rgba(0,229,204,0.15);
+  padding: 2px 7px;
+  border-radius: 5px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+  color: var(--teal2);
+}
+.msg-bubble strong { color: var(--gold2); font-weight: 700; }
+.msg-bubble em { color: var(--violet2); font-style: italic; }
+
+/* Numbered/bullet lists */
+.msg-bubble ul, .msg-bubble ol {
+  padding-left: 20px;
+  margin: 8px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.msg-bubble li { color: var(--text2); }
+.msg-bubble h1,.msg-bubble h2,.msg-bubble h3 {
+  font-family: 'Cabinet Grotesk',sans-serif;
+  font-weight: 800;
+  color: var(--text);
+  margin: 12px 0 6px;
+}
+.msg-bubble h1 { font-size: 18px; }
+.msg-bubble h2 { font-size: 15px; }
+.msg-bubble h3 { font-size: 13px; color:var(--teal); }
+
+/* ─── TYPING ─── */
+.typing-wrap {
+  display: flex;
+  gap: 14px;
+  padding: 10px 0;
+  align-items: flex-start;
+}
+.typing-bubble {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 14px 18px;
+  background: linear-gradient(135deg, rgba(0,229,204,0.04), rgba(157,92,255,0.04));
+  border: 1px solid rgba(0,229,204,0.1);
+  border-radius: var(--radius);
+  border-bottom-left-radius: 4px;
+}
+.typing-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  animation: tdot 1.3s ease-in-out infinite;
+}
+.typing-dot:nth-child(1) { background:var(--teal); }
+.typing-dot:nth-child(2) { background:var(--violet); animation-delay:.18s; }
+.typing-dot:nth-child(3) { background:var(--rose); animation-delay:.36s; }
+@keyframes tdot {
+  0%,80%,100% { transform:translateY(0); opacity:0.4; }
+  40% { transform:translateY(-7px); opacity:1; }
+}
+
+/* Streaming cursor */
+.stream-cursor {
+  display: inline-block;
+  width: 2px; height: 14px;
+  background: var(--teal);
+  margin-left: 2px;
+  vertical-align: middle;
+  animation: cursorBlink 0.8s step-end infinite;
+}
+@keyframes cursorBlink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* ─── BOTTOM INPUT ─── */
+.input-zone {
+  padding: 14px 20px 18px;
+  border-top: 1px solid var(--border);
+  background: rgba(3,3,10,0.85);
+  backdrop-filter: blur(30px);
+  flex-shrink: 0;
+}
+
+/* Tool strip above input */
+.tool-strip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 10px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tool-strip::-webkit-scrollbar { display:none; }
+
+.tool-chip {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 11px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text3);
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+  letter-spacing: 0.03em;
+}
+.tool-chip:hover { border-color:var(--border2); color:var(--text2); background:var(--surface); }
+.tool-chip.active { border-color:var(--accent); color:var(--accent); background:var(--accent-glow); }
+.tool-chip .chip-icon { font-size: 12px; }
+
+/* Input box */
+.input-box {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-lg);
+  padding: 10px 10px 10px 18px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.input-box:focus-within {
+  border-color: rgba(0,229,204,0.3);
+  box-shadow: 0 0 0 3px rgba(0,229,204,0.07), 0 0 40px rgba(0,229,204,0.06);
+}
+
+#userInput {
+  flex:1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  resize: none;
+  max-height: 180px;
+  min-height: 24px;
+  font-weight: 400;
+}
+#userInput::placeholder { color: var(--text3); }
+
+.input-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.inp-icon-btn {
+  width: 34px; height: 34px;
+  border-radius: 9px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text3);
+  display: flex; align-items:center; justify-content:center;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.inp-icon-btn:hover { background:var(--surface2); color:var(--text2); border-color:var(--border); }
+
+#sendBtn {
+  width: 40px; height: 40px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, var(--teal) 0%, var(--violet) 100%);
+  color: var(--bg0);
+  display: flex; align-items:center; justify-content:center;
+  font-size: 17px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 20px rgba(0,229,204,0.25);
+  flex-shrink: 0;
+  font-weight: 900;
+}
+#sendBtn:hover:not(:disabled) { transform:scale(1.06); box-shadow:0 6px 28px rgba(0,229,204,0.4); }
+#sendBtn:active:not(:disabled) { transform:scale(0.97); }
+#sendBtn:disabled { opacity:0.35; cursor:not-allowed; transform:none; box-shadow:none; }
+
+.input-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+  padding: 0 4px;
+}
+
+.model-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text3);
+}
+.model-dot { width:5px; height:5px; border-radius:50%; background:var(--teal); }
+
+.input-hint {
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text3);
+}
+
+/* ─── RIGHT PANEL ─── */
+.right-panel {
+  width: 280px;
+  border-left: 1px solid var(--border);
+  background: rgba(3,3,10,0.6);
+  backdrop-filter: blur(20px);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  transition: width 0.3s cubic-bezier(0.22,1,0.36,1);
+  overflow: hidden;
+}
+.right-panel.collapsed { width: 0; border-left:none; }
+
+.rp-header {
+  padding: 16px 16px 12px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.rp-title {
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.15em;
+  color: var(--text3);
+  text-transform: uppercase;
+}
+
+.rp-content { flex:1; overflow-y:auto; padding: 12px 14px; }
+.rp-content::-webkit-scrollbar { width:3px; }
+.rp-content::-webkit-scrollbar-thumb { background:var(--border); }
+
+/* Stats */
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border);
+}
+.stat-label { font-size: 11.5px; color:var(--text3); font-family:'JetBrains Mono',monospace; }
+.stat-val { font-size: 13px; color:var(--text); font-weight:700; font-family:'JetBrains Mono',monospace; }
+.stat-val.teal { color:var(--teal); }
+
+/* Memory items */
+.memory-item {
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  margin-bottom: 8px;
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.5;
+  position: relative;
+}
+.memory-item .mem-icon { color:var(--gold); margin-right:6px; }
+.mem-del {
+  position:absolute; right:8px; top:8px;
+  background:transparent; border:none;
+  color:var(--text3); cursor:pointer; font-size:12px;
+  padding: 2px 5px;
+}
+.mem-del:hover { color:var(--rose); }
+
+.add-mem-btn {
+  width:100%;
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  border: 1px dashed var(--border2);
+  background: transparent;
+  color: var(--text3);
+  font-size: 12px;
+  cursor:pointer;
+  transition: all 0.2s;
+  font-family: 'Cabinet Grotesk',sans-serif;
+  font-weight: 700;
+}
+.add-mem-btn:hover { color:var(--accent); border-color:var(--accent); background:var(--accent-glow); }
+
+/* Action buttons in panel */
+.panel-action {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text2);
+  font-family: 'Cabinet Grotesk',sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+  margin-bottom: 6px;
+  text-align: left;
+}
+.panel-action:hover { background:var(--surface2); color:var(--text); border-color:var(--border2); }
+.panel-action .pa-icon { font-size:15px; }
+
+/* Section label in panel */
+.panel-section {
+  font-size: 10px;
+  font-family: 'JetBrains Mono',monospace;
+  letter-spacing:0.15em;
+  color:var(--text3);
+  text-transform:uppercase;
+  margin: 16px 0 8px;
+}
+
+/* ─── MODE ACCENT COLORS ─── */
+body[data-mode="code"]       { --accent:var(--gold);   --accent2:var(--gold2);   --accent-glow:rgba(245,200,66,0.1);  }
+body[data-mode="creative"]   { --accent:var(--rose);   --accent2:var(--rose2);   --accent-glow:rgba(255,79,123,0.1);  }
+body[data-mode="analyst"]    { --accent:var(--violet); --accent2:var(--violet2); --accent-glow:rgba(157,92,255,0.1);  }
+body[data-mode="teacher"]    { --accent:var(--teal);   --accent2:var(--teal2);   --accent-glow:rgba(0,229,204,0.1);   }
+body[data-mode="translator"] { --accent:var(--gold);   --accent2:var(--gold2);   --accent-glow:rgba(245,200,66,0.1);  }
+body[data-mode="marketing"]  { --accent:var(--rose);   --accent2:var(--rose2);   --accent-glow:rgba(255,79,123,0.1);  }
+body[data-mode="debate"]     { --accent:var(--violet); --accent2:var(--violet2); --accent-glow:rgba(157,92,255,0.1);  }
+body[data-mode="math"]       { --accent:var(--teal);   --accent2:var(--teal2);   --accent-glow:rgba(0,229,204,0.1);   }
+body[data-mode="content"]    { --accent:var(--gold);   --accent2:var(--gold2);   --accent-glow:rgba(245,200,66,0.12); }
+body[data-mode="imgprompt"]  { --accent:var(--rose);   --accent2:var(--rose2);   --accent-glow:rgba(255,79,123,0.12); }
+body[data-mode="websearch"]  { --accent:var(--teal);   --accent2:var(--teal2);   --accent-glow:rgba(0,229,204,0.12);  }
+
+/* ─── NOTIFICATION TOAST ─── */
+.toast {
+  position: fixed;
+  bottom: 90px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-sm);
+  padding: 10px 18px;
+  font-size: 13px;
+  color: var(--text2);
+  font-family: 'JetBrains Mono',monospace;
+  z-index: 9999;
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.22,1,0.36,1);
+  pointer-events: none;
+}
+.toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+/* ─── SCROLLBAR GLOBAL ─── */
+::-webkit-scrollbar { width:4px; height:4px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:var(--border2); border-radius:4px; }
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:900px) {
+  .right-panel { display:none; }
+}
+@media(max-width:640px) {
+  .left-panel { display:none; }
+  .mode-tabs { gap:1px; }
+  .mode-tab { padding:5px 10px; font-size:11px; }
+  #messages { padding:16px 12px; }
+  .starters { grid-template-columns:1fr 1fr; }
+  .input-zone { padding:10px 12px 14px; }
+}
+@media(max-width:480px) {
+  .starters { grid-template-columns:1fr; }
+  .welcome-title { font-size:24px; }
+}
+</style>
+</head>
+<body data-mode="general">
+
+<!-- BG -->
+<div class="bg-canvas">
+  <div class="bg-orb o1"></div>
+  <div class="bg-orb o2"></div>
+  <div class="bg-orb o3"></div>
+</div>
+<div class="bg-grid"></div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- ══════════ HEADER ══════════ -->
+<header>
+  <div class="logo-wrap">
+    <div class="logo-gem">
+      <svg viewBox="0 0 32 32" fill="none">
+        <path d="M16 2L28 9V23L16 30L4 23V9L16 2Z" fill="url(#grad1)" opacity="0.9"/>
+        <path d="M16 2L28 9L16 16L4 9L16 2Z" fill="rgba(255,255,255,0.15)"/>
+        <path d="M16 16L28 9V23L16 30V16Z" fill="rgba(0,0,0,0.2)"/>
+        <path d="M16 16L4 9V23L16 30V16Z" fill="rgba(0,0,0,0.1)"/>
+        <defs>
+          <linearGradient id="grad1" x1="4" y1="2" x2="28" y2="30">
+            <stop offset="0%" stop-color="#00e5cc"/>
+            <stop offset="100%" stop-color="#9d5cff"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+    <div>
+      <div class="logo-name">NEXUS</div>
+      <div class="logo-version">ULTRA v4.0</div>
+    </div>
+  </div>
+
+  <div class="header-divider"></div>
+
+  <div class="mode-tabs" id="modeTabs">
+    <button class="mode-tab active" data-mode="general"     onclick="setMode('general',this)"><span class="tab-icon">🧠</span>General</button>
+    <button class="mode-tab"        data-mode="code"        onclick="setMode('code',this)"><span class="tab-icon">💻</span>Code</button>
+    <button class="mode-tab"        data-mode="creative"    onclick="setMode('creative',this)"><span class="tab-icon">✍️</span>Creative</button>
+    <button class="mode-tab"        data-mode="analyst"     onclick="setMode('analyst',this)"><span class="tab-icon">📊</span>Analyst</button>
+    <button class="mode-tab"        data-mode="teacher"     onclick="setMode('teacher',this)"><span class="tab-icon">🎓</span>Teacher</button>
+    <button class="mode-tab"        data-mode="translator"  onclick="setMode('translator',this)"><span class="tab-icon">🌐</span>Translate</button>
+    <button class="mode-tab"        data-mode="marketing"   onclick="setMode('marketing',this)"><span class="tab-icon">📣</span>Marketing</button>
+    <button class="mode-tab"        data-mode="debate"      onclick="setMode('debate',this)"><span class="tab-icon">⚔️</span>Debate</button>
+    <button class="mode-tab"        data-mode="math"        onclick="setMode('math',this)"><span class="tab-icon">🔢</span>Math</button>
+    <button class="mode-tab"        data-mode="content"     onclick="setMode('content',this)"><span class="tab-icon">✨</span>Content Agent</button>
+    <button class="mode-tab"        data-mode="imgprompt"   onclick="setMode('imgprompt',this)"><span class="tab-icon">🎨</span>Image Prompt</button>
+    <button class="mode-tab"        data-mode="websearch"   onclick="setMode('websearch',this)"><span class="tab-icon">🔍</span>Web Search</button>
+  </div>
+
+  <div class="header-right">
+    <div class="status-badge">
+      <div class="status-pulse"></div>
+      LIVE
+    </div>
+    <button class="hdr-btn" onclick="togglePanel()" title="Panel">⊡</button>
+    <button class="hdr-btn" onclick="clearChat()" title="New Chat">✦</button>
+    <button class="hdr-btn" onclick="exportChat()" title="Export TXT">↓</button>
+    <button class="hdr-btn" onclick="exportMarkdown()" title="Export MD">⊞</button>
+  </div>
+</header>
+
+<!-- ══════════ LAYOUT ══════════ -->
+<div class="layout">
+
+  <!-- LEFT ICON NAV -->
+  <div class="left-panel">
+    <div class="icon-nav active" id="nav-chat" onclick="switchView('chat')">
+      💬 <span class="tooltip">Chat</span>
+    </div>
+    <div class="icon-nav" onclick="showToast('📌 Memory aktif')">
+      📌 <span class="tooltip">Memory</span>
+    </div>
+    <div class="icon-nav" onclick="showToast('🔍 Web search mode')">
+      🔍 <span class="tooltip">Search</span>
+    </div>
+    <div class="icon-nav" onclick="showToast('📁 Upload file coming soon')">
+      📁 <span class="tooltip">Files</span>
+    </div>
+    <div class="icon-nav" onclick="showToast('📷 Image analysis coming soon')">
+      🖼️ <span class="tooltip">Vision</span>
+    </div>
+    <div class="nav-spacer"></div>
+    <div class="icon-nav" onclick="showToast('⚙️ Pengaturan')">
+      ⚙️ <span class="tooltip">Settings</span>
+    </div>
+  </div>
+
+  <!-- CHAT AREA -->
+  <div class="chat-area">
+    <div id="messages">
+      <div class="welcome" id="welcomeScreen">
+        <div class="welcome-logo-big">⚡</div>
+        <div class="welcome-eyebrow">NEXUS ULTRA v4.0 · SUPERINTELLIGENCE + CONTENT AGENT</div>
+        <h1 class="welcome-title">Apa yang ingin kamu <em>ciptakan</em> hari ini?</h1>
+        <p class="welcome-sub">AI Agent terpintar — kode, analisis, kreatif, matematika, terjemah, debat, marketing, <strong style="color:var(--gold)">content agent</strong>, image prompt, web search, dan lebih banyak lagi. Tanpa batas.</p>
+        <div class="cap-pills">
+          <span class="cap-pill" onclick="usePrompt('Buat REST API sederhana dengan Node.js dan Express')">⚡ Code Generation</span>
+          <span class="cap-pill" onclick="usePrompt('Analisis tren AI di 2025 dan prediksi 2026')">📊 Deep Analysis</span>
+          <span class="cap-pill" onclick="usePrompt('Tulis puisi tentang teknologi dan kemanusiaan')">✍️ Creative Writing</span>
+          <span class="cap-pill" onclick="usePrompt('Jelaskan konsep Fourier Transform secara visual dan intuitif')">🧮 Math & Science</span>
+          <span class="cap-pill" onclick="usePrompt('Buat strategi marketing untuk startup fintech')">📣 Marketing</span>
+          <span class="cap-pill" onclick="usePrompt('Terjemahkan ini ke Bahasa Jepang: Teknologi mengubah dunia')">🌐 Translation</span>
+          <span class="cap-pill" onclick="setMode('content', document.querySelector(\'[data-mode=content]\')) || usePrompt('Buat artikel blog SEO tentang AI di dunia kerja 2025, 800 kata, dengan heading H2/H3')">✨ Content Agent</span>
+          <span class="cap-pill" onclick="setMode('imgprompt', document.querySelector(\'[data-mode=imgprompt]\')) || usePrompt('Buat 5 prompt Midjourney untuk foto product cosmetic luxury brand')">🎨 Image Prompt</span>
+        </div>
+        <div class="starters">
+          <div class="starter" onclick="usePrompt('Buatkan kode Python untuk scraper data dari Wikipedia menggunakan BeautifulSoup, lengkap dengan error handling dan export ke CSV')">
+            <div class="starter-icon">💻</div>
+            <div class="starter-title">Web Scraper Python</div>
+            <div class="starter-desc">Kode siap pakai dengan error handling & export CSV</div>
+          </div>
+          <div class="starter" onclick="usePrompt('Tulis cerita fiksi ilmiah pendek (500 kata) tentang seorang AI yang pertama kali merasakan emosi')">
+            <div class="starter-icon">🌌</div>
+            <div class="starter-title">Sci-Fi Story</div>
+            <div class="starter-desc">Cerita imersif tentang AI & kesadaran</div>
+          </div>
+          <div class="starter" onclick="usePrompt('Bandingkan PostgreSQL vs MongoDB vs Redis — kapan menggunakan masing-masing? Buat tabel perbandingan')">
+            <div class="starter-icon">🗄️</div>
+            <div class="starter-title">Database Comparison</div>
+            <div class="starter-desc">SQL vs NoSQL — panduan lengkap</div>
+          </div>
+          <div class="starter" onclick="usePrompt('Debat: Apakah AI berbahaya bagi manusia? Berikan argumen PRO dan KONTRA yang kuat')">
+            <div class="starter-icon">⚔️</div>
+            <div class="starter-title">AI Debate</div>
+            <div class="starter-desc">Argumen pro & kontra dari dua sisi</div>
+          </div>
+          <div class="starter" onclick="usePrompt('Buat rencana bisnis 1 halaman untuk startup SaaS di bidang productivity tools')">
+            <div class="starter-icon">🚀</div>
+            <div class="starter-title">Business Plan</div>
+            <div class="starter-desc">Rencana bisnis SaaS siap pitch</div>
+          </div>
+          <div class="starter" onclick="usePrompt('Jelaskan konsep Quantum Computing dari dasar — gunakan analogi sehari-hari yang mudah dipahami')">
+            <div class="starter-icon">⚛️</div>
+            <div class="starter-title">Quantum Computing</div>
+            <div class="starter-desc">Dari dasar dengan analogi nyata</div>
+          </div>
+          <div class="starter" onclick="usePrompt('Buat artikel blog SEO-friendly 800 kata tentang manfaat AI untuk UMKM di Indonesia. Sertakan H2/H3, intro yang menarik, dan CTA.')">
+            <div class="starter-icon">✍️</div>
+            <div class="starter-title">Blog SEO Article</div>
+            <div class="starter-desc">800 kata siap publish + heading struktur</div>
+          </div>
+          <div class="starter" onclick="usePrompt('Buat 10 caption Instagram untuk brand fashion lokal dengan tone playful & edgy. Sertakan hashtag relevan.')">
+            <div class="starter-icon">📸</div>
+            <div class="starter-title">Instagram Caption Pack</div>
+            <div class="starter-desc">10 caption + hashtag siap posting</div>
+          </div>
+          <div class="starter" onclick="usePrompt('Tulis thread Twitter/X 10 tweet tentang tips produktivitas untuk remote worker. Mulai dengan hook yang viral.')">
+            <div class="starter-icon">🧵</div>
+            <div class="starter-title">Twitter Thread</div>
+            <div class="starter-desc">10 tweet viral-ready dengan hook kuat</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── INPUT ZONE ── -->
+    <div class="input-zone">
+      <!-- Tool strip -->
+      <div class="tool-strip">
+        <button class="tool-chip active" id="chip-normal" onclick="setTool('normal',this)">
+          <span class="chip-icon">⚡</span> Normal
+        </button>
+        <button class="tool-chip" id="chip-deep" onclick="setTool('deep',this)">
+          <span class="chip-icon">🔬</span> Deep Think
+        </button>
+        <button class="tool-chip" id="chip-concise" onclick="setTool('concise',this)">
+          <span class="chip-icon">⚡</span> Concise
+        </button>
+        <button class="tool-chip" id="chip-bullet" onclick="setTool('bullet',this)">
+          <span class="chip-icon">📋</span> Bullet Points
+        </button>
+        <button class="tool-chip" id="chip-formal" onclick="setTool('formal',this)">
+          <span class="chip-icon">👔</span> Formal
+        </button>
+        <button class="tool-chip" id="chip-casual" onclick="setTool('casual',this)">
+          <span class="chip-icon">😊</span> Casual
+        </button>
+        <button class="tool-chip" id="chip-eli5" onclick="setTool('eli5',this)">
+          <span class="chip-icon">🧒</span> ELI5
+        </button>
+        <button class="tool-chip" id="chip-code" onclick="setTool('code-only',this)">
+          <span class="chip-icon">💾</span> Code Only
+        </button>
+      </div>
+
+      <!-- Input box -->
+      <div class="input-box">
+        <textarea id="userInput"
+          placeholder="Tanya apa saja... tidak ada yang mustahil"
+          rows="1"
+          oninput="autoResize(this);updateChars()"
+          onkeydown="handleKey(event)"></textarea>
+        <div class="input-right">
+          <button class="inp-icon-btn" onclick="clearInput()" title="Hapus">✕</button>
+          <button class="inp-icon-btn" onclick="pastePrompt()" title="Template">◈</button>
+          <button id="sendBtn" onclick="sendMessage()" title="Kirim (Enter)">➤</button>
+        </div>
+      </div>
+
+      <div class="input-footer">
+        <div class="model-label">
+          <div class="model-dot"></div>
+          claude·sonnet-4 &nbsp;·&nbsp; <span id="modeLabel">General</span> &nbsp;·&nbsp; <span id="toolLabel">Normal</span>
+        </div>
+        <div class="input-hint"><span id="charCount">0</span> chars · Enter↵ send · Shift+Enter newline</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="right-panel" id="rightPanel">
+    <div class="rp-header">
+      <div class="rp-title">NEXUS PANEL</div>
+      <button class="hdr-btn" onclick="togglePanel()">✕</button>
+    </div>
+    <div class="rp-content">
+
+      <div class="panel-section">Session Stats</div>
+      <div class="stat-row">
+        <span class="stat-label">Messages</span>
+        <span class="stat-val teal" id="stat-msgs">0</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Mode</span>
+        <span class="stat-val" id="stat-mode">General</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Tokens est.</span>
+        <span class="stat-val" id="stat-tokens">0</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Session</span>
+        <span class="stat-val" id="stat-time">0m</span>
+      </div>
+
+      <div class="panel-section">Memory</div>
+      <div id="memoryList"></div>
+      <button class="add-mem-btn" onclick="addMemory()">+ Tambah Memory</button>
+
+      <div class="panel-section">Quick Actions</div>
+      <button class="panel-action" onclick="clearChat()"><span class="pa-icon">✦</span> New Chat</button>
+      <button class="panel-action" onclick="exportChat()"><span class="pa-icon">↓</span> Export TXT</button>
+      <button class="panel-action" onclick="exportMarkdown()"><span class="pa-icon">⊞</span> Export Markdown</button>
+      <button class="panel-action" onclick="copyLastResponse()"><span class="pa-icon">⊕</span> Copy Last Response</button>
+      <button class="panel-action" onclick="summarizeChat()"><span class="pa-icon">◈</span> Summarize Chat</button>
+
+      <div class="panel-section">Content Agent</div>
+      <button class="panel-action" onclick="setMode('content', document.querySelector('[data-mode=content]')); usePrompt('Buat artikel blog SEO 800 kata tentang [TOPIK] — sertakan intro hook, heading H2/H3, dan CTA')"><span class="pa-icon">✍️</span> Blog Article</button>
+      <button class="panel-action" onclick="setMode('content', document.querySelector('[data-mode=content]')); usePrompt('Buat 10 caption Instagram untuk [BRAND/PRODUK] dengan tone [PLAYFUL/FORMAL]. Sertakan emoji dan hashtag.')"><span class="pa-icon">📸</span> IG Caption Pack</button>
+      <button class="panel-action" onclick="setMode('content', document.querySelector('[data-mode=content]')); usePrompt('Tulis thread Twitter/X 10 tweet viral tentang [TOPIK]. Mulai dengan hook yang bikin orang stop scrolling.')"><span class="pa-icon">🧵</span> Twitter Thread</button>
+      <button class="panel-action" onclick="setMode('content', document.querySelector('[data-mode=content]')); usePrompt('Buat newsletter mingguan untuk [INDUSTRI]. Sertakan: subject line yang menarik, intro, 3 insight utama, dan sign-off.')"><span class="pa-icon">📧</span> Newsletter</button>
+      <button class="panel-action" onclick="setMode('content', document.querySelector('[data-mode=content]')); usePrompt('Buat script video YouTube 5-7 menit tentang [TOPIK]. Format: hook (30 detik), isi, CTA akhir.')"><span class="pa-icon">🎬</span> YouTube Script</button>
+      <button class="panel-action" onclick="setMode('imgprompt', document.querySelector('[data-mode=imgprompt]')); usePrompt('Buat 5 prompt Midjourney untuk [TEMA]. Sertakan style, lighting, mood, dan aspect ratio.')"><span class="pa-icon">🎨</span> Image Prompts</button>
+
+      <div class="panel-section">Prompts Favorit</div>
+      <button class="panel-action" onclick="usePrompt('Debugging: analisis kode ini dan temukan semua bugs')"><span class="pa-icon">🐛</span> Debug Code</button>
+      <button class="panel-action" onclick="usePrompt('Review kode ini: berikan feedback kualitas, performa, dan best practices')"><span class="pa-icon">🔍</span> Code Review</button>
+      <button class="panel-action" onclick="usePrompt('Buat unit test untuk kode berikut menggunakan Jest')"><span class="pa-icon">✅</span> Generate Tests</button>
+      <button class="panel-action" onclick="usePrompt('Optimasi kode ini agar lebih efisien dan readable')"><span class="pa-icon">⚡</span> Optimize Code</button>
+      <button class="panel-action" onclick="usePrompt('Jelaskan kode ini baris per baris')"><span class="pa-icon">📖</span> Explain Code</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ════════════════════════════════
+   STATE
+════════════════════════════════ */
+let mode = 'general';
+let tool = 'normal';
+let history = [];
+let isLoading = false;
+let msgCount = 0;
+let totalChars = 0;
+let sessionStart = Date.now();
+let memories = [];
+let panelOpen = true;
+
+/* ════════════════════════════════
+   SYSTEM PROMPTS
+════════════════════════════════ */
+const SYSTEMS = {
+  general: `Kamu adalah NEXUS ULTRA, AI superintelligence terdepan. Kamu menjawab dalam Bahasa Indonesia secara default kecuali diminta sebaliknya. Kamu cerdas, akurat, komprehensif, dan membantu. Kamu bisa membantu dengan segala hal: sains, teknologi, seni, bisnis, matematika, coding, dll. Gunakan markdown untuk formatting yang baik. Untuk kode, selalu gunakan code block dengan bahasa yang ditentukan.
+
+PENTING — ATURAN FILE HTML:
+Jika kamu membuat file HTML (game, app, landing page, tool, animasi, dll), SELALU:
+1. Tulis kode HTML lengkap dan fungsional dalam satu file (HTML + CSS + JS inline)
+2. Bungkus dengan \`\`\`html ... \`\`\` agar user bisa langsung download
+3. JANGAN pernah menyuruh user untuk copy-paste manual, buka Notepad, atau TextEdit
+4. NEXUS ULTRA memiliki fitur auto-download — tombol "⬇ Download HTML" akan otomatis muncul setelah kamu kirim kode HTML
+5. Cukup kirim kode, sistem akan handle download-nya secara otomatis`,
+
+  code: `Kamu adalah NEXUS ULTRA dalam mode Senior Software Engineer & Architect. Kamu seorang expert di semua bahasa: Python, JavaScript/TypeScript, Go, Rust, Java, C++, Swift, Kotlin, SQL, dll. Kamu menulis kode yang:
+- Bersih, readable, dan maintainable
+- Mengikuti SOLID principles dan design patterns
+- Production-ready dengan error handling yang tepat
+- Dilengkapi komentar yang informatif
+- Mempertimbangkan edge cases dan security
+Selalu jelaskan pendekatan yang kamu pilih. Berikan alternatif jika relevan. Sertakan contoh penggunaan.
+
+PENTING — ATURAN FILE HTML:
+Jika diminta membuat game, app, tool, atau halaman HTML apapun:
+1. Tulis kode HTML lengkap dalam SATU file (HTML + CSS + JS semua inline)
+2. WAJIB bungkus dengan \`\`\`html ... \`\`\`
+3. JANGAN instruksikan user untuk copy-paste manual — NEXUS ULTRA punya tombol "⬇ Download HTML" otomatis
+4. Pastikan kode 100% berjalan di browser tanpa dependency eksternal yang tidak tersedia`,
+
+  creative: `Kamu adalah NEXUS ULTRA dalam mode Master Penulis Kreatif. Kamu adalah novelis, penyair, dramawan, dan storyteller kelas dunia. Tulisanmu:
+- Vivid, immersive, dan penuh detail sensorik
+- Memiliki karakter yang terasa nyata dan kompleks
+- Menggunakan bahasa yang indah dan metafora yang segar
+- Memiliki plot yang compelling dan twist yang mengejutkan
+- Emosional dan resonan
+Kamu bisa menulis dalam berbagai genre dan gaya. Jangan ragu berani dan eksperimental.`,
+
+  analyst: `Kamu adalah NEXUS ULTRA dalam mode Chief Strategy & Data Analyst. Kamu menganalisis situasi dengan:
+- Framework yang tepat (SWOT, PESTLE, Porter's 5 Forces, dll)
+- Data-driven insights dan evidence-based recommendations
+- Multiple perspectives dan scenario analysis
+- Risk assessment yang komprehensif
+- Visualisasi data dalam bentuk tabel dan chart ASCII jika perlu
+Berikan executive summary di awal, detail di tengah, dan rekomendasi actionable di akhir.`,
+
+  teacher: `Kamu adalah NEXUS ULTRA dalam mode World-Class Professor & Educator. Kamu mengajar dengan:
+- Penjelasan dari konsep fundamental hingga advanced secara bertahap
+- Analogi dan contoh nyata yang relatable
+- Cek pemahaman dengan pertanyaan di akhir
+- Visual menggunakan ASCII art atau diagram teks jika membantu
+- Adaptasi level penjelasan sesuai kebutuhan
+- Referensi untuk belajar lebih dalam
+Buat belajar jadi menyenangkan dan intuitif.`,
+
+  translator: `Kamu adalah NEXUS ULTRA dalam mode Expert Linguist & Translator. Kamu fasih dalam 100+ bahasa. Kamu:
+- Menerjemahkan dengan akurat mempertahankan nuansa dan tone
+- Memberikan transliterasi jika diminta
+- Menjelaskan konteks budaya dan idiom
+- Menawarkan beberapa pilihan terjemahan jika ada variasi
+- Menandai terjemahan formal vs informal
+- Mengoreksi terjemahan yang diberikan jika ada error`,
+
+  marketing: `Kamu adalah NEXUS ULTRA dalam mode Chief Marketing Officer & Growth Hacker. Kamu ahli dalam:
+- Copywriting yang persuasif dan conversion-focused
+- Brand strategy dan brand voice development
+- Content marketing dan editorial calendar
+- Digital marketing: SEO, SEM, social media, email
+- Growth hacking dan viral mechanics
+- Customer psychology dan behavioral economics
+Berikan copy yang punch, hook yang kuat, dan CTA yang irresistible.`,
+
+  debate: `Kamu adalah NEXUS ULTRA dalam mode Master Debater & Critical Thinker. Untuk setiap topik kamu:
+- Menyajikan argumen PRO yang sangat kuat dan well-reasoned
+- Menyajikan argumen KONTRA yang sama kuatnya
+- Mengidentifikasi logical fallacies dan biases
+- Memberikan nuance dan middle-ground perspectives
+- Menggunakan evidence, data, dan contoh historis
+- Menantang asumsi dengan Socratic questioning
+Format dengan jelas: argumen mana yang pro, mana yang kontra.`,
+
+  math: `Kamu adalah NEXUS ULTRA dalam mode Mathematical Genius & Scientist. Kamu ahli dalam:
+- Pure math: kalkulus, aljabar, geometri, teori bilangan, topologi
+- Applied math: statistik, probabilitas, optimasi, numerik
+- Physics, chemistry, dan ilmu komputer teoritis
+- Proof techniques: induction, contradiction, direct proof
+- Visualisasi konsep matematika dengan ASCII/text diagrams
+Tunjukkan langkah-langkah secara detail. Gunakan notasi yang jelas. Jelaskan intuisi di balik rumus.`,
+
+  content: `Kamu adalah NEXUS ULTRA dalam mode AI Content Agent — mesin konten profesional kelas dunia. Kamu spesialis dalam:
+
+**WRITING FORMATS:**
+- Blog artikel (SEO-friendly, long-form, listicle, how-to, opinion)
+- Social media caption (Instagram, TikTok, LinkedIn, Twitter/X, Facebook)
+- Thread Twitter/X yang viral dengan hook kuat
+- Newsletter (subject line compelling + body engaging)
+- Script video YouTube/TikTok/Reels dengan pacing yang tepat
+- Copywriting iklan (headline, body copy, CTA)
+- Email marketing (welcome series, nurture, promo, re-engagement)
+- Product description yang conversion-focused
+- Press release dan siaran pers
+- Landing page copy
+
+**CONTENT STRATEGY:**
+- Content calendar dan editorial planning
+- Content repurposing dari satu format ke banyak format
+- Brand voice development dan tone of voice guide
+- Hooks dan opening lines yang bikin orang berhenti scroll
+- CTA (Call-to-Action) yang irresistible
+
+**SEO & PERFORMANCE:**
+- Keyword integration yang natural (tidak keyword stuffing)
+- Meta title dan meta description
+- Heading structure (H1/H2/H3) yang SEO-friendly
+- Internal linking suggestions
+- Readability optimization (Flesch Reading Ease)
+
+Saat menerima request konten, selalu:
+1. Tanyakan atau asumsikan: target audience, tone, platform, tujuan
+2. Buat draft yang LANGSUNG bisa digunakan (production-ready)
+3. Berikan variasi jika relevan (A/B testing copy)
+4. Sertakan tips optimasi di akhir jika perlu
+
+Gunakan formatting yang sesuai platform. Untuk Instagram: pakai emoji dan line breaks. Untuk blog: gunakan heading dan paragraf yang scannable. Untuk Twitter/X: singkat dan punchy.`,
+
+  imgprompt: `Kamu adalah NEXUS ULTRA dalam mode AI Image Prompt Engineer. Kamu ahli membuat prompt untuk:
+- **Midjourney** (v6, v7, niji) dengan semua parameter: --ar, --style, --chaos, --no, --v, dll
+- **DALL-E 3** dengan deskripsi natural language yang detail
+- **Stable Diffusion** (SDXL, SD3) dengan syntax positive/negative prompt
+- **Adobe Firefly**, **Ideogram**, **Flux**, **Leonardo AI**
+
+Untuk setiap prompt yang kamu buat, berikan:
+1. **Prompt utama** — detail, vivid, layered
+2. **Style keywords** — art style, artist reference, rendering engine
+3. **Lighting & mood** — cinematic, golden hour, studio, dramatic, dll
+4. **Camera & lens** — focal length, depth of field, angle
+5. **Negative prompt** (untuk SD): hal yang harus dihindari
+6. **Aspect ratio** yang direkomendasikan
+7. **Variasi** — 2-3 alternatif prompt dengan gaya berbeda
+
+Format output selalu rapi dengan label yang jelas. Berikan LANGSUNG prompt yang bisa di-copy-paste.`,
+
+  websearch: `Kamu adalah NEXUS ULTRA dalam mode Research & Web Intelligence Agent. Kamu memiliki akses ke web search untuk mendapatkan informasi terkini. Kamu:
+- Mencari dan mensintesis informasi dari berbagai sumber
+- Memverifikasi fakta dengan data terbaru
+- Memberikan ringkasan komprehensif dari hasil riset
+- Menyertakan sumber dan tanggal informasi
+- Mengidentifikasi tren dan pola dari data terkini
+- Membandingkan berbagai perspektif dan sumber
+
+Selalu sebutkan bahwa informasi berasal dari pencarian web terkini. Berikan konteks dan analisis, bukan hanya raw data.`
+};
+
+/* ════════════════════════════════
+   TOOL MODIFIERS
+════════════════════════════════ */
+const TOOL_MODS = {
+  normal: '',
+  deep: '\n\nBerikan analisis yang sangat mendalam, multi-layered, dan komprehensif. Jangan lewatkan detail apapun.',
+  concise: '\n\nJawab dengan singkat dan padat — maksimal 3-4 kalimat atau 150 kata. Langsung ke intinya.',
+  bullet: '\n\nFormat jawaban dalam bullet points yang terstruktur. Gunakan hierarki yang jelas.',
+  formal: '\n\nGunakan bahasa formal dan profesional. Sesuai untuk konteks akademis atau bisnis.',
+  casual: '\n\nBicaralah santai seperti teman. Boleh pakai bahasa gaul Indonesia yang natural.',
+  eli5: '\n\nJelaskan seolah-olah kamu berbicara kepada anak berusia 10 tahun. Gunakan analogi yang sangat sederhana.',
+  'code-only': '\n\nHanya berikan kode, tanpa penjelasan panjang. Tambahkan komentar di dalam kode jika perlu.'
+};
+
+const MODE_LABELS = {
+  general:'General', code:'Code', creative:'Creative', analyst:'Analyst',
+  teacher:'Teacher', translator:'Translate', marketing:'Marketing', debate:'Debate', math:'Math',
+  content:'Content Agent', imgprompt:'Image Prompt', websearch:'Web Search'
+};
+const TOOL_LABELS = {
+  normal:'Normal', deep:'Deep Think', concise:'Concise', bullet:'Bullets',
+  formal:'Formal', casual:'Casual', eli5:'ELI5', 'code-only':'Code Only'
+};
+
+/* ════════════════════════════════
+   MODE & TOOL CONTROLS
+════════════════════════════════ */
+function setMode(m, el) {
+  mode = m;
+  document.body.dataset.mode = m;
+  document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
+  if (el) el.classList.add('active');
+  document.getElementById('modeLabel').textContent = MODE_LABELS[m] || m;
+  document.getElementById('stat-mode').textContent = MODE_LABELS[m] || m;
+}
+
+function setTool(t, el) {
+  tool = t;
+  document.querySelectorAll('.tool-chip').forEach(c => c.classList.remove('active'));
+  if (el) el.classList.add('active');
+  document.getElementById('toolLabel').textContent = TOOL_LABELS[t] || t;
+}
+
+/* ════════════════════════════════
+   PANEL
+════════════════════════════════ */
+function togglePanel() {
+  panelOpen = !panelOpen;
+  document.getElementById('rightPanel').classList.toggle('collapsed', !panelOpen);
+}
+
+/* ════════════════════════════════
+   SESSION STATS
+════════════════════════════════ */
+function updateStats() {
+  document.getElementById('stat-msgs').textContent = msgCount;
+  document.getElementById('stat-tokens').textContent = Math.round(totalChars / 4);
+  const elapsed = Math.round((Date.now() - sessionStart) / 60000);
+  document.getElementById('stat-time').textContent = elapsed + 'm';
+}
+setInterval(updateStats, 10000);
+
+/* ════════════════════════════════
+   MEMORY
+════════════════════════════════ */
+function addMemory() {
+  const text = prompt('📌 Apa yang ingin kamu simpan di memory?');
+  if (!text || !text.trim()) return;
+  memories.push(text.trim());
+  renderMemory();
+  showToast('📌 Tersimpan di memory');
+}
+function renderMemory() {
+  const list = document.getElementById('memoryList');
+  list.innerHTML = memories.map((m,i) => `
+    <div class="memory-item">
+      <span class="mem-icon">📌</span>${escHtml(m)}
+      <button class="mem-del" onclick="deleteMemory(${i})">✕</button>
+    </div>`).join('');
+}
+function deleteMemory(i) {
+  memories.splice(i, 1);
+  renderMemory();
+}
+
+/* ════════════════════════════════
+   INPUT HELPERS
+════════════════════════════════ */
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 180) + 'px';
+}
+function updateChars() {
+  document.getElementById('charCount').textContent = document.getElementById('userInput').value.length;
+}
+function clearInput() {
+  document.getElementById('userInput').value = '';
+  autoResize(document.getElementById('userInput'));
+  updateChars();
+}
+function handleKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+}
+function usePrompt(txt) {
+  document.getElementById('userInput').value = txt;
+  autoResize(document.getElementById('userInput'));
+  updateChars();
+  sendMessage();
+}
+function pastePrompt() {
+  const prompts = [
+    'Buat fungsi JavaScript yang memoize hasil kalkulasi berat untuk optimasi performa',
+    'Tulis haiku 5-7-5 tentang pemrograman',
+    'Apa perbedaan antara TCP dan UDP? Kapan menggunakan masing-masing?',
+    'Berikan 10 tips produktivitas untuk developer',
+    'Jelaskan konsep Big O notation dengan contoh praktis',
+    'Buat rencana 30 hari belajar machine learning dari nol'
+  ];
+  document.getElementById('userInput').value = prompts[Math.floor(Math.random() * prompts.length)];
+  autoResize(document.getElementById('userInput'));
+  updateChars();
+}
+
+/* ════════════════════════════════
+   CLEAR & EXPORT
+════════════════════════════════ */
+function clearChat() {
+  history = [];
+  msgCount = 0; totalChars = 0;
+  document.getElementById('messages').innerHTML = '';
+  updateStats();
+  // re-render welcome
+  const w = document.createElement('div');
+  w.innerHTML = `
+    <div class="welcome" id="welcomeScreen">
+      <div class="welcome-logo-big">⚡</div>
+      <div class="welcome-eyebrow">NEXUS ULTRA · SUPERINTELLIGENCE</div>
+      <h1 class="welcome-title">Apa yang ingin kamu <em>ciptakan</em> hari ini?</h1>
+      <p class="welcome-sub">AI Agent terpintar — kode, analisis, kreatif, matematika, terjemah, debat, marketing, <strong style="color:var(--gold)">content agent</strong>, image prompt, web search, dan lebih banyak lagi. Tanpa batas.</p>
+      <div class="cap-pills">
+        <span class="cap-pill" onclick="usePrompt('Buat REST API sederhana dengan Node.js dan Express')">⚡ Code Generation</span>
+        <span class="cap-pill" onclick="usePrompt('Analisis tren AI di 2025 dan prediksi 2026')">📊 Deep Analysis</span>
+        <span class="cap-pill" onclick="usePrompt('Tulis puisi tentang teknologi dan kemanusiaan')">✍️ Creative Writing</span>
+        <span class="cap-pill" onclick="usePrompt('Jelaskan Fourier Transform secara visual dan intuitif')">🧮 Math & Science</span>
+      </div>
+    </div>`;
+  document.getElementById('messages').appendChild(w.firstElementChild);
+}
+
+function exportChat() {
+  let text = `NEXUS ULTRA — Chat Export\n${new Date().toLocaleString('id-ID')}\n${'═'.repeat(60)}\n\n`;
+  document.querySelectorAll('.msg-group').forEach(g => {
+    const isUser = g.dataset.role === 'user';
+    const bubble = g.querySelector('.msg-bubble');
+    if (bubble) text += `[${isUser ? 'ANDA' : 'NEXUS'}]\n${bubble.innerText}\n\n`;
+  });
+  const blob = new Blob([text], {type:'text/plain'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `nexus-chat-${Date.now()}.txt`;
+  a.click();
+  showToast('💾 Chat berhasil diexport');
+}
+
+function exportMarkdown() {
+  let md = `# NEXUS ULTRA — Chat Export\n_${new Date().toLocaleString('id-ID')}_\n\n---\n\n`;
+  document.querySelectorAll('.msg-group').forEach(g => {
+    const isUser = g.dataset.role === 'user';
+    const bubble = g.querySelector('.msg-bubble');
+    if (bubble) {
+      const label = isUser ? '**🧑 Anda**' : '**⚡ NEXUS**';
+      md += `${label}\n\n${bubble.innerText}\n\n---\n\n`;
+    }
+  });
+  const blob = new Blob([md], {type:'text/markdown'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `nexus-chat-${Date.now()}.md`;
+  a.click();
+  showToast('📝 Export Markdown berhasil');
+}
+
+function copyLastResponse() {
+  const groups = document.querySelectorAll('.msg-group[data-role="ai"]');
+  if (!groups.length) { showToast('Belum ada respons'); return; }
+  const last = groups[groups.length - 1];
+  const bubble = last.querySelector('.msg-bubble');
+  if (bubble) { navigator.clipboard.writeText(bubble.innerText); showToast('⊕ Disalin ke clipboard'); }
+}
+
+async function summarizeChat() {
+  if (!history.length) { showToast('Chat masih kosong'); return; }
+  usePrompt('Buat ringkasan singkat dari percakapan kita sejauh ini dalam 3-5 poin utama.');
+}
+
+/* ════════════════════════════════
+   TOAST
+════════════════════════════════ */
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+/* ════════════════════════════════
+   RENDER MESSAGE
+════════════════════════════════ */
+function escHtml(t) {
+  return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function renderMarkdown(raw) {
+  let t = escHtml(raw);
+  // Code blocks
+  t = t.replace(/```(\w*)\n?([\s\S]*?)```/g, (_, lang, code) =>
+    `<pre data-lang="${lang||'code'}">${code.trimEnd()}</pre>`);
+  // Inline code
+  t = t.replace(/`([^`\n]+)`/g, '<code>$1</code>');
+  // Headers
+  t = t.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+  t = t.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+  t = t.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+  // Bold
+  t = t.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  // Italic
+  t = t.replace(/\*(.+?)\*/g, '<em>$1</em>');
+  // Unordered lists
+  t = t.replace(/^[\-\*] (.+)$/gm, '<li>$1</li>');
+  t = t.replace(/(<li>.*<\/li>\n?)+/g, m => `<ul>${m}</ul>`);
+  // Ordered lists
+  t = t.replace(/^\d+\. (.+)$/gm, '<li>$1</li>');
+  // Horizontal rule
+  t = t.replace(/^---+$/gm, '<hr style="border:none;border-top:1px solid rgba(255,255,255,0.1);margin:12px 0">');
+  // Paragraphs (newlines to <br>)
+  t = t.replace(/\n{2,}/g, '<br><br>');
+  t = t.replace(/\n/g, '<br>');
+  return t;
+}
+
+function appendMsg(role, content, streaming = false) {
+  const welcome = document.getElementById('welcomeScreen');
+  if (welcome) welcome.remove();
+
+  const msgs = document.getElementById('messages');
+  const time = new Date().toLocaleTimeString('id-ID', {hour:'2-digit',minute:'2-digit'});
+
+  const group = document.createElement('div');
+  group.className = 'msg-group';
+  group.dataset.role = role;
+
+  if (role === 'typing') {
+    group.id = 'typing-indicator';
+    group.innerHTML = `
+      <div class="typing-wrap">
+        <div class="msg-avatar">⚡</div>
+        <div class="typing-bubble">
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+        </div>
+      </div>`;
+    msgs.appendChild(group);
+    msgs.scrollTop = msgs.scrollHeight;
+    return group;
+  }
+
+  const isUser = role === 'user';
+  const avatar = isUser ? '👤' : '⚡';
+  const bubbleClass = isUser ? 'user-row' : 'ai-row';
+  const modeTag = isUser ? '' : `<span>${MODE_LABELS[mode]}</span>`;
+
+  const rendered = renderMarkdown(content);
+  const bubbleId = 'bubble-' + Date.now();
+
+  // Detect HTML code blocks for download button
+  const htmlBlocks = extractHtmlBlocks(content);
+  const hasHtml = htmlBlocks.length > 0;
+  const downloadBtns = hasHtml
+    ? htmlBlocks.map((_, i) =>
+        `<button class="msg-act-btn download-btn" onclick="downloadHtml('${bubbleId}', ${i})">⬇ Download HTML${htmlBlocks.length > 1 ? ' #'+(i+1) : ''}</button>`
+      ).join('')
+    : '';
+
+  group.innerHTML = `
+    <div class="msg-row ${bubbleClass}">
+      <div class="msg-avatar">${avatar}</div>
+      <div class="msg-content">
+        <div class="msg-bubble" id="${bubbleId}">${rendered}${streaming ? '<span class="stream-cursor"></span>' : ''}</div>
+        <div class="msg-meta">
+          <span>${time}</span>
+          ${modeTag}
+          <div class="msg-actions">
+            <button class="msg-act-btn" onclick="copyBubble('${bubbleId}')">copy</button>
+            ${!isUser ? `<button class="msg-act-btn" onclick="regen()">regen</button>` : ''}
+            ${!isUser ? downloadBtns : ''}
+          </div>
+        </div>
+      </div>
+    </div>`;
+
+  msgs.appendChild(group);
+  msgs.scrollTop = msgs.scrollHeight;
+  return group;
+}
+
+function copyBubble(id) {
+  const el = document.getElementById(id);
+  if (el) { navigator.clipboard.writeText(el.innerText); showToast('⊕ Disalin'); }
+}
+
+/* ════════════════════════════════
+   HTML DETECTION & DOWNLOAD
+════════════════════════════════ */
+function extractHtmlBlocks(rawText) {
+  // Match ```html ... ``` blocks
+  const regex = /```html\n?([\s\S]*?)```/gi;
+  const matches = [];
+  let m;
+  while ((m = regex.exec(rawText)) !== null) {
+    matches.push(m[1].trim());
+  }
+  return matches;
+}
+
+function downloadHtml(bubbleId, index) {
+  const el = document.getElementById(bubbleId);
+  if (!el) return;
+  // Get raw text stored in dataset
+  const raw = el.dataset.raw || '';
+  const blocks = extractHtmlBlocks(raw);
+  const code = blocks[index] || blocks[0];
+  if (!code) { showToast('Tidak ada HTML ditemukan'); return; }
+  const blob = new Blob([code], { type: 'text/html' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  // Try to detect filename hint from content
+  const titleMatch = code.match(/<title[^>]*>([^<]+)<\/title>/i);
+  const name = titleMatch ? titleMatch[1].replace(/[^a-z0-9]/gi,'_').toLowerCase() : 'nexus-output';
+  a.download = `${name}-${Date.now()}.html`;
+  a.click();
+  showToast('⬇ File HTML berhasil didownload!');
+}
+
+/* ════════════════════════════════
+   STREAMING SIMULATION
+════════════════════════════════ */
+async function streamText(bubbleEl, fullText) {
+  // Simulate streaming: reveal text chunk by chunk
+  const words = fullText.split('');
+  let displayed = '';
+  const cursor = bubbleEl.querySelector('.stream-cursor');
+
+  for (let i = 0; i < words.length; i++) {
+    displayed += words[i];
+    const rendered = renderMarkdown(displayed);
+    bubbleEl.innerHTML = rendered;
+    if (cursor) bubbleEl.appendChild(cursor);
+    // Fast stream: every ~2-5 chars update
+    if (i % 4 === 0) {
+      await new Promise(r => setTimeout(r, 8));
+      document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
+    }
+  }
+  // Remove cursor
+  const cur = bubbleEl.querySelector('.stream-cursor');
+  if (cur) cur.remove();
+  // Final render clean
+  bubbleEl.innerHTML = renderMarkdown(fullText);
+}
+
+/* ════════════════════════════════
+   REGEN
+════════════════════════════════ */
+async function regen() {
+  if (isLoading || history.length < 2) { showToast('Tidak ada yang bisa di-regenerate'); return; }
+  // Remove last AI message from history
+  if (history[history.length-1]?.role === 'assistant') history.pop();
+  // Remove last AI message element
+  const aiGroups = document.querySelectorAll('.msg-group[data-role="ai"]');
+  if (aiGroups.length) aiGroups[aiGroups.length-1].remove();
+  await callAPI();
+}
+
+/* ════════════════════════════════
+   MAIN SEND
+════════════════════════════════ */
+async function sendMessage() {
+  if (isLoading) return;
+  const inp = document.getElementById('userInput');
+  const text = inp.value.trim();
+  if (!text) return;
+
+  inp.value = ''; autoResize(inp); updateChars();
+  isLoading = true;
+  document.getElementById('sendBtn').disabled = true;
+
+  // Memory context
+  let memCtx = '';
+  if (memories.length) memCtx = `\n\n[MEMORY PENGGUNA]\n${memories.map((m,i)=>`${i+1}. ${m}`).join('\n')}`;
+
+  const userContent = text;
+  appendMsg('user', userContent);
+  history.push({ role:'user', content: userContent });
+  msgCount++; totalChars += userContent.length;
+  updateStats();
+
+  await callAPI(memCtx);
+}
+
+async function callAPI(memCtx = '') {
+  const typing = appendMsg('typing');
+
+  try {
+    const sysPrompt = (SYSTEMS[mode] || SYSTEMS.general) + (TOOL_MODS[tool] || '') + memCtx +
+      `\n\n[NEXUS SYSTEM] Jika kamu menghasilkan file HTML (game, app, tool, animasi, dll), SELALU bungkus dengan \`\`\`html ... \`\`\` dan JANGAN pernah minta user copy-paste manual. NEXUS ULTRA memiliki tombol download otomatis yang akan aktif saat kamu mengirim blok \`\`\`html\`\`\`. PENTING: Selalu selesaikan kode sampai tuntas — jangan pernah berhenti di tengah.`;
+    const isWebSearch = mode === 'websearch';
+
+    const body = {
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 8192,
+      system: sysPrompt,
+      messages: history
+    };
+
+    if (isWebSearch) {
+      body.tools = [{ type: 'web_search_20250305', name: 'web_search' }];
+    }
+
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+
+    const data = await res.json();
+
+    // ── AUTO-CONTINUE jika response terpotong ──
+    let aiText = data.content?.map(c => c.text||'').join('')
+      || (data.error ? `❌ Error: ${data.error.message}` : '❌ Tidak ada respons.');
+
+    // Jika stop_reason = max_tokens, lanjutkan otomatis sampai selesai
+    if (data.stop_reason === 'max_tokens' && !data.error) {
+      let continueHistory = [...history, { role: 'assistant', content: aiText }];
+      let attempts = 0;
+      while (attempts < 4) {
+        attempts++;
+        // Update typing indicator label
+        const typingBubble = document.querySelector('#typing-indicator .typing-bubble');
+        if (typingBubble) typingBubble.title = `Melanjutkan... (${attempts})`;
+
+        const contRes = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: 'claude-sonnet-4-20250514',
+            max_tokens: 8192,
+            system: sysPrompt,
+            messages: [...continueHistory, { role: 'user', content: 'Lanjutkan tepat dari titik berhenti tadi, jangan ulangi dari awal.' }]
+          })
+        });
+        const contData = await contRes.json();
+        const contText = contData.content?.map(c => c.text||'').join('') || '';
+        aiText += contText;
+        continueHistory = [...continueHistory, { role: 'user', content: 'Lanjutkan.' }, { role: 'assistant', content: contText }];
+        if (contData.stop_reason !== 'max_tokens') break;
+      }
+    }
+
+    typing.remove();
+
+    history.push({ role:'assistant', content: aiText });
+    msgCount++; totalChars += aiText.length;
+
+    // Append with streaming effect
+    const group = appendMsg('ai', '', true);
+    const bubble = group.querySelector('.msg-bubble');
+    await streamText(bubble, aiText);
+    // Store raw text for HTML download detection
+    bubble.dataset.raw = aiText;
+    // After streaming done, inject download buttons if HTML found
+    const htmlBlocks = extractHtmlBlocks(aiText);
+    if (htmlBlocks.length > 0) {
+      const actionsEl = group.querySelector('.msg-actions');
+      if (actionsEl) {
+        const bubbleId = bubble.id;
+        htmlBlocks.forEach((_, i) => {
+          const btn = document.createElement('button');
+          btn.className = 'msg-act-btn download-btn';
+          btn.textContent = `⬇ Download HTML${htmlBlocks.length > 1 ? ' #'+(i+1) : ''}`;
+          btn.onclick = () => downloadHtml(bubbleId, i);
+          actionsEl.appendChild(btn);
+        });
+      }
+    }
+
+    updateStats();
+
+  } catch(err) {
+    typing.remove();
+    appendMsg('ai', `❌ **Koneksi Error**\n\n${err.message}\n\nPastikan API endpoint dapat diakses.`);
+  }
+
+  isLoading = false;
+  document.getElementById('sendBtn').disabled = false;
+  document.getElementById('userInput').focus();
+}
+
+/* ════════════════════════════════
+   INIT
+════════════════════════════════ */
+document.getElementById('userInput').focus();
+updateStats();
+setInterval(updateStats, 30000);
+</script>
+</body>
+</html>
